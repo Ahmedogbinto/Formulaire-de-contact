@@ -3,11 +3,20 @@
 $firstname = $name = $email = $message = "";                           // 1ère fois j'aimerais que les champs soient vident. 
 if($_SERVER["REQUEST_METHOD"] == "POST")
 {
-    $firstname = $_POST["firstname"];                                 // pour la deuxi'me fois jaimerais sauvegarder les valeurs des champs.
-    $name = $_POST["name"];
-    $email = $_POST["email"];
-    $phone = $_POST["phone"];
-    $message = $_POST["message"];
+    $firstname = VerifyInput($_POST["firstname"]);                                 // pour la deuxième fois j'aimerais sauvegarder les valeurs des champs.
+    $name = VerifyInput($_POST["name"]);
+    $email = VerifyInput($_POST["email"]);
+    $phone = VerifyInput($_POST["phone"]);
+    $message = VerifyInput($_POST["message"]);
+}
+
+function VerifyInput($var)
+{
+    $var = trim($var);                                                           // Permet d eviter des injections de scripts, a partir de l URL pour la securite 
+    $var = stripcslashes($var);                                                  // supprimer les caracteres anti slashes
+    $var = htmlspecialchars($var);                                               // supprimer les caracteres speciaux 
+
+    return $var;
 }
 
 ?>
@@ -38,7 +47,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST")
 
             <div class="row">
                 
-                <form id="contact-form" method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>" role="form">
+                <form id="contact-form" method="post" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>" role="form">                                         
                     <div class="row">
                         <div class="col-md-6">
                             <label for="firstname">Prénom<span class="blue"> *</span></label>
