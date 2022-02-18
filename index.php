@@ -1,35 +1,47 @@
 <?php 
 
-$firstname = $name = $email = $message = "";                                         // 1ère fois j'aimerais que les champs soient vident. 
+$firstname = $name = $email = $phone = $message = "";                                         // 1ère fois j'aimerais que les champs soient vident. 
 $firstnameError = $nameError = $emailError = $phoneError = $messageError = "";
+$isSuccess = false;
 
 if($_SERVER["REQUEST_METHOD"] == "POST")
 {
-    $firstname = verifyInput($_POST["firstname"]);                                 // pour la deuxième fois j'aimerais sauvegarder les valeurs des champs.
+    $firstname = verifyInput($_POST["firstname"]);                                           // pour la deuxième fois j'aimerais sauvegarder les valeurs des champs.
     $name = verifyInput($_POST["name"]);
     $email = verifyInput($_POST["email"]);
     $phone = verifyInput($_POST["phone"]);
     $message = verifyInput($_POST["message"]);
+    $isSuccess = True;
 
     if(empty($firstname))
     {
         $firstnameError = "Je veux connaitre ton prénom !";
+        $isSuccess = false;
     }
     if(empty($name))
     {
         $nameError = "Et oui je veux tout savoir, même ton nom !";
+        $isSuccess = false;
     }
     if(empty($message))
     {
         $messageError = "Qu'es ce tu veux me dire ?";
+        $isSuccess = false;
     }
     if(!isEmail($email))
     {
         $emailError = "Tu essaies de me roubler? c'est pas un email ça ! :)";
+        $isSuccess = false;
     }
     if(!isPhone($phone))
     {
         $phoneError = "Que des chiffres et des espaces stp...";
+        $isSuccess = false;
+    }
+
+    if($isSuccess)
+    {
+
     }
 }
 
@@ -124,7 +136,7 @@ function verifyInput($var)
 
                     </div>
 
-                    <p class ="thank-you"> Votre message a bien été envoyé. Merci de m'avoir contacter :) </p>
+                    <p class ="thank-you" style = "display:<?php if($isSuccess) echo 'block'; else echo 'none'; ?>"> Votre message a bien été envoyé. Merci de m'avoir contacter :) </p>
                 </form>
             </div> 
 
